@@ -21,17 +21,14 @@ def getToken():
 			time.sleep(5)
 			continue
 
-def getFollowers(xtoken,xsecret,cursor="-1"):
+def getFollowers(xtoken,xsecret,username,cursor="-1"):
 	try:
-		#https://api.twitter.com/1.1/followers/ids.json?cursor=-1&screen_name=xb4l1c&count=5000
-		return requests.get("https://api.twitter.com/1.1/followers/list.json?cursor="+str(cursor)+"&screen_name=xb4l1c&skip_status=true&include_user_entities=false&count=200",headers={
+		return requests.get("https://api.twitter.com/1.1/followers/list.json?cursor="+str(cursor)+"&screen_name="+str(xb4l1c)+"&skip_status=true&include_user_entities=false&count=200",headers={
 		"User-Agent": "Twitter-iPhone/9.62 iOS/13.3.3 (Apple;iPhone9,1;;;;;1)",
 		"Content-Type": "application/json"},auth=OAuth1('3nVuSoBZnx6U4vzUxf5w','Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys',xtoken,xsecret,decoding=None), verify=False).json()
-	
 	except Exception as e:
 		print("getFollowers func", e)
 		pass
-
 
 def blockUser(xtoken,xsecret,username):
 	try:
@@ -60,7 +57,7 @@ if not len(sys.argv) == 4:
 attemp = login(str(username),str(password)).json()
 saveFile(str(username) + "_creds.json", attemp)
 X_Token,X_Secret = attemp['oauth_token'],attemp['oauth_token_secret']
-followers = getFollowers(X_Token,X_Secret)
+followers = getFollowers(X_Token,X_Secret,username)
 users = []
 users = followers["users"]
 print("fetch users from Twitter..")
@@ -69,7 +66,7 @@ while True:
 	print(len(followers["users"]),"...")
 	if followers["next_cursor"] == 0:
 		break
-	followers = getFollowers(X_Token,X_Secret,followers["next_cursor"])
+	followers = getFollowers(X_Token,X_Secret,username,followers["next_cursor"])
 	for user in followers["users"]:
 		users.append(user)
 
