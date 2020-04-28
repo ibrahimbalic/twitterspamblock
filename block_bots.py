@@ -23,7 +23,7 @@ def getToken():
 
 def getFollowers(xtoken,xsecret,username,cursor="-1"):
 	try:
-		return requests.get("https://api.twitter.com/1.1/followers/list.json?cursor="+str(cursor)+"&screen_name="+str(xb4l1c)+"&skip_status=true&include_user_entities=false&count=200",headers={
+		return requests.get("https://api.twitter.com/1.1/followers/list.json?cursor="+str(cursor)+"&screen_name="+str(username)+"&skip_status=true&include_user_entities=false&count=200",headers={
 		"User-Agent": "Twitter-iPhone/9.62 iOS/13.3.3 (Apple;iPhone9,1;;;;;1)",
 		"Content-Type": "application/json"},auth=OAuth1('3nVuSoBZnx6U4vzUxf5w','Bcs59EFbbsdF6Sl9Ng71smgStWEGwXXKSjYvPVt7qys',xtoken,xsecret,decoding=None), verify=False).json()
 	except Exception as e:
